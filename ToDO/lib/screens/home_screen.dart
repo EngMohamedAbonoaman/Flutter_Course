@@ -42,9 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         // backgroundColor: AppColor.appBarColor,
-        onPressed: () async {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => AddTaskScreen()));
+        onPressed: () {
+          Navigator.of(context).pushNamed("/addTasktask");
           // CashHelper.putData(
           //   key: "ThemeMode",
           //   value: true,

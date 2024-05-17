@@ -1,10 +1,13 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:todoapp2/state/add_task_cubit/task_states.dart';
 import 'package:path/path.dart';
 
-class DBRepo {
-  static late Database mydb;
-  static List<Map<String, dynamic>> myList = [];
-  static Future<List<Map<String, Object?>>> initializeDB() async {
+class TaskCubit extends Cubit<AllAddTaskStates> {
+  TaskCubit() : super(AddTaskInitialState());
+  List<Map<String, dynamic>> myList = [];
+  late Database mydb;
+  Future<List<Map<String, Object?>>> initializeDB() async {
     String DBpath = await getDatabasesPath();
     String path = join(DBpath, "todo.db");
 
@@ -27,22 +30,20 @@ class DBRepo {
     return myList;
   }
 
-//select * from tasks
-  static Future<List<Map<String, Object?>>> executeQuery(
-      String tableName) async {
+  Future<List<Map<String, Object?>>> executeQuery(String tableName) async {
     List<Map<String, Object?>> myList = [];
     myList = await mydb.query(tableName);
 
     return myList;
   }
 
-  static Future<List<Map<String, Object?>>> insert({
-    required int id,
-    required String title,
-    required String description,
-    required int status,
-  }) async {
-    List<Map<String, Object?>> myList = [];
+  Future<List<Map<String, Object?>>> insert(
+      {required int id,
+      required String title,
+      required String description,
+      required int status}) async {
+    emit(AddTaskLoadingState());
+
     await Future.delayed(Duration(seconds: 2));
     await mydb.insert('tasks', {
       'id': id,
@@ -51,11 +52,13 @@ class DBRepo {
       'status': status,
     });
     myList = await executeQuery("tasks");
+    emit(AddTaskSuccessState());
     print(myList.length);
     return myList;
   }
 
-  static delete({required int id}) async {
+  delete({required int id}) async {
+    emit(DeleteTaskLoadingState());
     try {
       await Future.delayed(Duration(seconds: 2));
       await mydb.delete(
@@ -65,31 +68,10 @@ class DBRepo {
         whereArgs: [id],
       );
       myList = await executeQuery("tasks");
-
+      emit(DeleteTaskSuccessState());
       print("task deleted successfully");
-    } catch (e) {}
-  }
-
-  static Future<void> update({
-    required int id,
-    required String title,
-    required String description,
-    required int status,
-  }) async {
-    await Future.delayed(Duration(seconds: 2));
-    mydb
-        .update(
-      'tasks',
-      {
-        'title': title,
-        'description': description,
-        'status': status,
-      },
-      where: 'id = ?',
-      whereArgs: [id],
-    )
-        .then((value) {
-      print("task updated successfully");
-    });
+    } catch (e) {
+      emit(DeleteTaskErrorState(e.toString()));
+    }
   }
 }

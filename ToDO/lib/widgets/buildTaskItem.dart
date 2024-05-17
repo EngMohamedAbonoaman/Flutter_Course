@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp2/screens/edit_screen.dart';
+import 'package:todoapp2/state/add_task_cubit/task_cubit.dart';
 
 import '../shared/app_color.dart';
 import '../shared/app_style.dart';
@@ -8,10 +10,12 @@ import '../shared/fixed_size.dart';
 class BuildTaskItem extends StatelessWidget {
   BuildTaskItem(
       {super.key,
+      required this.id,
       required this.title,
       required this.description,
       this.status = 0});
   String title;
+  int id;
   String description;
   int status;
 
@@ -63,7 +67,9 @@ class BuildTaskItem extends StatelessWidget {
                           color: Colors.deepOrange,
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            BlocProvider.of<TaskCubit>(context).delete(id: id);
+                          },
                           icon: const Icon(
                             Icons.delete_outline,
                             size: 25,

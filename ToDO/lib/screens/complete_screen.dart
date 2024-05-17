@@ -42,6 +42,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
       itemCount: myList.length,
       itemBuilder: (context, index) {
         return BuildTaskItem(
+          id: myList[index]['id'],
           title: myList[index]['title'],
           description: myList[index]['description'],
           status: myList[index]['status'],

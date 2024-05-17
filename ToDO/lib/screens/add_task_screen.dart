@@ -9,7 +9,7 @@ import 'package:todoapp2/shared/fixed_size.dart';
 import 'package:todoapp2/widgets/buildButton.dart';
 import 'package:todoapp2/widgets/buildtextfield.dart';
 
-import '../state/add_task_cubit/add_task_cubit.dart';
+import '../state/add_task_cubit/task_cubit.dart';
 
 class AddTaskScreen extends StatefulWidget {
   AddTaskScreen({super.key});
@@ -99,7 +99,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         setState(() {
                           isLoading = true;
                         });
-                        BlocProvider.of<AddTaskCubit>(context)
+                        BlocProvider.of<TaskCubit>(context)
                             .insert(
                           id: int.parse(idController.text),
                           title: titleController.text,

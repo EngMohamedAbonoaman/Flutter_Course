@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp2/screens/add_task_screen.dart';
 import 'package:todoapp2/screens/home_screen.dart';
@@ -10,18 +9,19 @@ class Routes {
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
-    switch (routeSettings) {
+    switch (routeSettings.name) {
       case Routes.HomeRoute:
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case Routes.AddTaskRoute:
         return MaterialPageRoute(builder: (_) => AddTaskScreen());
       default:
         return MaterialPageRoute(
-            builder: (_) => Scaffold(
-                  body: Center(
-                    child: Text("No routes"),
-                  ),
-                ));
+          builder: (_) => const Scaffold(
+            body: Center(
+              child: Text("No routes"),
+            ),
+          ),
+        );
     }
   }
 }

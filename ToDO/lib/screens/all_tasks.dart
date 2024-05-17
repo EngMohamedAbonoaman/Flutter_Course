@@ -5,8 +5,8 @@ import 'package:todoapp2/networking/DB.dart';
 import 'package:todoapp2/shared/app_color.dart';
 import 'package:todoapp2/shared/app_style.dart';
 import 'package:todoapp2/shared/fixed_size.dart';
-import 'package:todoapp2/state/add_task_cubit/add_task_cubit.dart';
-import 'package:todoapp2/state/add_task_cubit/add_task_states.dart';
+import 'package:todoapp2/state/add_task_cubit/task_cubit.dart';
+import 'package:todoapp2/state/add_task_cubit/task_states.dart';
 
 import 'package:todoapp2/widgets/buildTaskItem.dart';
 
@@ -55,22 +55,39 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(BlocProvider.of<AddTaskCubit>(context).myList.length);
-    return BlocConsumer<AddTaskCubit, AllAddTaskStates>(
+    print(BlocProvider.of<TaskCubit>(context).myList.length);
+    return BlocConsumer<TaskCubit, AllAddTaskStates>(
       builder: (BuildContext context, state) {
-        return ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: BlocProvider.of<AddTaskCubit>(context).myList.length,
-          itemBuilder: (context, index) {
-            return BuildTaskItem(
-              title: BlocProvider.of<AddTaskCubit>(context).myList[index]
-                  ['title'],
-              description: BlocProvider.of<AddTaskCubit>(context).myList[index]
-                  ['description'],
-              status: BlocProvider.of<AddTaskCubit>(context).myList[index]
-                  ['status'],
-            );
-          },
+        return Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            state is DeleteTaskLoadingState
+                ? const Column(
+                    children: [
+                      Text("Deleting..."),
+                      LinearProgressIndicator(),
+                    ],
+                  )
+                : const SizedBox(),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              itemCount: BlocProvider.of<TaskCubit>(context).myList.length,
+              itemBuilder: (context, index) {
+                return BuildTaskItem(
+                  id: BlocProvider.of<TaskCubit>(context).myList[index]['id'],
+                  title: BlocProvider.of<TaskCubit>(context).myList[index]
+                      ['title'],
+                  description: BlocProvider.of<TaskCubit>(context).myList[index]
+                      ['description'],
+                  status: BlocProvider.of<TaskCubit>(context).myList[index]
+                      ['status'],
+                );
+              },
+            ),
+          ],
         );
       },
       listener: (BuildContext context, Object? state) {
