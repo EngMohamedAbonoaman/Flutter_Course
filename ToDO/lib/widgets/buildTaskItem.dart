@@ -57,7 +57,11 @@ class BuildTaskItem extends StatelessWidget {
                         IconButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditScreen(),
+                              builder: (context) => EditScreen(
+                                id: id,
+                                title: title,
+                                desc: description,
+                              ),
                             ));
                           },
                           icon: const Icon(

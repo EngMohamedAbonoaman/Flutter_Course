@@ -28,11 +28,11 @@ class Todo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      theme: getAppTheme(),
-      initialRoute: "/",
+      // theme: getAppTheme(),
+      initialRoute: "/chat",
       // routes: {
       //   '/': (_) => HomeScreen(),
       //   '/addTask': (_) => AddTaskScreen(),

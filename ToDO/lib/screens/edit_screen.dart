@@ -8,7 +8,11 @@ import '../widgets/buildButton.dart';
 import '../widgets/buildtextfield.dart';
 
 class EditScreen extends StatefulWidget {
-  EditScreen({super.key});
+  EditScreen(
+      {super.key, required this.title, required this.desc, required this.id});
+  int id;
+  String title;
+  String desc;
 
   @override
   State<EditScreen> createState() => _EditScreenState();
@@ -20,6 +24,18 @@ class _EditScreenState extends State<EditScreen> {
   TextEditingController idController = TextEditingController();
 
   TextEditingController desController = TextEditingController();
+
+  void setController() {
+    idController.text = widget.id.toString();
+    titleController.text = widget.title;
+    desController.text = widget.desc;
+  }
+
+  @override
+  void initState() {
+    setController();
+    super.initState();
+  }
 
   bool isLoading = false;
 

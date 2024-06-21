@@ -26,6 +26,13 @@ class BuildTextField extends StatelessWidget {
           contentPadding:
               EdgeInsets.symmetric(vertical: padding, horizontal: 10),
           hintText: hint,
+          suffixIcon: IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.send,
+              color: Colors.blue,
+            ),
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
           ),

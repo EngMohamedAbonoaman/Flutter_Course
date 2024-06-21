@@ -8,7 +8,7 @@ class DBRepo {
     String DBpath = await getDatabasesPath();
     String path = join(DBpath, "todo.db");
 
-    Database database = await openDatabase(path, version: 1,
+    await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       await db.execute('''
               create table tasks(
